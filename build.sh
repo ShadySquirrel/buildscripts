@@ -24,7 +24,10 @@ case `uname -s` in
         txtgrn='\e[0;32m' # Green
         txtylw='\e[0;33m' # Yellow
         txtblu='\e[0;34m' # Blue
-        THREADS=`cat /proc/cpuinfo | grep processor | wc -l`
+        #THREADS=`cat /proc/cpuinfo | grep processor | wc -l`
+        # although I have 12 cores, I'll use only 8 threads for this...
+        # why? Well, I don't want my vents working on maximum RPM for few hours...
+        THREADS=8
         ;;
 esac
 
