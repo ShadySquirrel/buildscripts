@@ -25,7 +25,7 @@ case `uname -s` in
         txtylw='\e[0;33m' # Yellow
         txtblu='\e[0;34m' # Blue
         #THREADS=`cat /proc/cpuinfo | grep processor | wc -l`
-        # although I have 12 cores, I'll use only 8 threads for this...
+        # although I have 6cores/12 threads, I'll use only 8 threads for this...
         # why? Well, I don't want my vents working on maximum RPM for few hours...
         THREADS=8
         ;;
@@ -42,8 +42,13 @@ check_root() {
 gerrit_apply_topic()
 {
     if [[ ! -z ${1} && ! ${1} == " " ]]; then
+        REPO_PATH=${2}
+        CMD_LINE="$CUR_DIR/vendor/lineage/build/tools/repopick.py --topic ${1} --start-branch auto"
+        if [[ ! -z ${REPO_PATH} && ! ${REPO_PATH} == " " ]]; then
+            CMD_LINE="$CMD_LINE -P ${REPO_PATH}"
+        fi
         echo -e "${txtylw}Applying gerrit topic: ${1} ${txtrst}"
-        python $CUR_DIR/vendor/lineage/build/tools/repopick.py --topic ${1} --ignore-missing --start-branch auto
+        python $CMD_LINE
         if [[ ${PIPESTATUS[0]} != 0 ]]; then
             echo -e "${txtred}Applying gerrit topic ${1} failed!${txtrst}"
             exit 1
@@ -56,8 +61,13 @@ gerrit_apply_topic()
 gerrit_apply_change()
 {
     if [[ ! -z ${1} && ! ${1} == " " ]]; then
+        REPO_PATH=${2}
+        CMD_LINE="$CUR_DIR/vendor/lineage/build/tools/repopick.py ${1} --start-branch auto"
+        if [[ ! -z ${REPO_PATH} && ! ${REPO_PATH} == " " ]]; then
+            CMD_LINE="$CMD_LINE -P ${REPO_PATH}"
+        fi
         echo -e "${txtylw}Applying gerrit change: ${1} ${txtrst}"
-        python $CUR_DIR/vendor/lineage/build/tools/repopick.py ${1} --ignore-missing --start-branch auto
+        python $CMD_LINE
         if [[ ${PIPESTATUS[0]} != 0 ]]; then
             echo -e "${txtred}Applying gerrit change ${1} failed!${txtrst}"
             exit 1
