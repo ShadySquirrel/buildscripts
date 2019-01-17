@@ -253,7 +253,8 @@ case "$EXTRACMD" in
         ;;
     *)
         echo -e "${txtgrn}Building LineageOS ${ROM_VERSION}...${txtrst}"
-        brunch ${brunch}
+        #brunch ${brunch} -j $THREADS
+        make -j $THREADS bacon
         ;;
 esac
 
