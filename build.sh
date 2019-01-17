@@ -195,7 +195,7 @@ fi
 #   Local: local vendor/lineage 0001-disable-security.patch
 if [ -f $CUR_DIR/patches.txt ]; then
     echo -e "${txtylw}Applying patches from patches.txt...${txtrst}"
-    repo abandon auto
+    #repo abandon auto
 
     # Read patch data
     while read line; do
